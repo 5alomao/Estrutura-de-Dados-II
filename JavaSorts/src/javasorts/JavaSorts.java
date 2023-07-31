@@ -25,6 +25,10 @@ public class JavaSorts {
         BubbleSort.bSort(array);
         System.out.println("Vetor Ordenado:");
         printArray(array);
+        
+        BubbleSort.bSort2(array);
+        System.out.println("Vetor Ordenado Decrescente:");
+        printArray(array);
     }
     
     public static void printArray(int array[]){
