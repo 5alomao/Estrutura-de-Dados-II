@@ -52,16 +52,15 @@ public class JavaSorts {
                 }
                 break;
         }
-            
+        printArray(array);
         do {
-            int[] array2 = array.clone();
             op = menuOrdenar();
             switch (op) {
                 case 1:
 //                  System.out.println("Array Original");
                     //JavaSorts.printArray(array);
                     tempoInicial = System.currentTimeMillis();
-                    BubbleSort.bSort(array2);
+                    BubbleSort.bSort(array);
                     tempoFinal = System.currentTimeMillis();
                     //System.out.println("Array Ordenado");
                     //JavaSorts.printArray(array);
@@ -72,7 +71,7 @@ public class JavaSorts {
                     break;
                 case 2:
                     tempoInicial = System.currentTimeMillis();
-                    SelectionSort.sSort(array2);
+                    SelectionSort.sSort(array);
                     tempoFinal = System.currentTimeMillis();
                     System.out.println("-- Selection Sort --");
                     System.out.println("Comparacoes: " + SelectionSort.compara);
@@ -81,7 +80,7 @@ public class JavaSorts {
                     break;
                 case 3:
                     tempoInicial = System.currentTimeMillis();
-                    InsertionSort.iSort(array2);
+                    InsertionSort.iSort(array);
                     tempoFinal = System.currentTimeMillis();
                     System.out.println("-- Inserction Sort --");
                     System.out.println("Comparacoes: " + InsertionSort.compara);
@@ -91,20 +90,22 @@ public class JavaSorts {
                 case 4:
                     System.out.println("Valor: ");
                     valorBusca = sc.nextInt();
-                    if (Search.linearSearch(array2, valorBusca)) {
+                    if (Search.linearSearch(array, valorBusca)) {
                         System.out.println("Encontrado !");
                     } else {
                         System.out.println("Inexistente");
                     }
+                    System.out.println("Comparacoes Linear Search: " + Search.compLinear);
                     break;
                 case 5:
                     System.out.println("Valor: ");
                     valorBusca = sc.nextInt();
-                    if (Search.binarySearch(array2, valorBusca)) {
+                    if (Search.binarySearch(array, valorBusca)) {
                         System.out.println("Encontrado !");
                     } else {
                         System.out.println("Inexistente");
                     }
+                    System.out.println("Comparacoes Binary Search: " + Search.compBinary);
                     break;
                 case 0:
                     break;
@@ -118,6 +119,13 @@ public class JavaSorts {
     public static void printArray(int array[]) {
         for (int i = 0; i < array.length; i++) {
             System.out.print(array[i] + "|");
+        }
+        System.out.println("\n");
+    }
+
+    public static void printIntervalo(int array[], int ini, int fim) {
+        for (int i = ini; i <= fim; i++) {
+            System.out.print(array[i] + "| ");
         }
         System.out.println("\n");
     }
