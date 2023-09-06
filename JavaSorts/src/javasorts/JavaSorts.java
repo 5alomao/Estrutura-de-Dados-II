@@ -1,5 +1,6 @@
 package javasorts;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -45,32 +46,33 @@ public class JavaSorts {
 
         System.out.println("Tamanho do Vetor:");
         size = sc.nextInt();
-        int[] array = new int[size];
+        int[] dArray = new int[size];
 
         op = menuEntrada();
         switch (op) {
             case 1:
-                for (int i = 0; i < array.length; i++) {
-                    array[i] = rand.nextInt(100);
+                for (int i = 0; i < dArray.length; i++) {
+                    dArray[i] = rand.nextInt(100);
                 }
                 break;
             case 2:
                 System.out.println("Insira os Dados do Vetor:");
-                for (int i = 0; i < array.length; i++) {
-                    array[i] = sc.nextInt();
+                for (int i = 0; i < dArray.length; i++) {
+                    dArray[i] = sc.nextInt();
                 }
                 break;
         }
         System.out.println("-- Vetor Desordenado --");
-        printArray(array);
+        printArray(dArray);
 
         do {
-            
             System.out.println("[1] - Odernar");
             System.out.println("[2] - Buscar");
+            System.out.println("[3] - Comparar");
             int x = sc.nextInt();
             if (x == 1) {
                 op = menuOrdenar();
+                int[] array = Arrays.copyOf(dArray, dArray.length); // Cria uma cópia não ordenada do array
                 switch (op) {
                     case 1:
                         //System.out.println("Array Original");
@@ -105,7 +107,7 @@ public class JavaSorts {
                         break;
                     case 4:
                         tempoInicial = System.currentTimeMillis();
-                        QuickSort.qSort(array, 0, array.length-1);
+                        QuickSort.qSort(array, 0, array.length - 1);
                         tempoFinal = System.currentTimeMillis();
                         System.out.println("-- Quick Sort --");
                         System.out.println("Comparacoes: " + QuickSort.compara);
@@ -123,7 +125,7 @@ public class JavaSorts {
                     case 1:
                         System.out.println("Valor: ");
                         valorBusca = sc.nextInt();
-                        if (Search.linearSearch(array, valorBusca)) {
+                        if (Search.linearSearch(dArray, valorBusca)) {
                             System.out.println("Encontrado !");
                         } else {
                             System.out.println("Inexistente");
@@ -133,7 +135,7 @@ public class JavaSorts {
                     case 2:
                         System.out.println("Valor: ");
                         valorBusca = sc.nextInt();
-                        if (Search.binarySearch(array, valorBusca)) {
+                        if (Search.binarySearch(dArray, valorBusca)) {
                             System.out.println("Encontrado !");
                         } else {
                             System.out.println("Inexistente");
@@ -145,6 +147,27 @@ public class JavaSorts {
                     default:
                         System.out.println("Opcao Invalida.");
                 }
+            } else if (x == 3) {
+                int[] bArray = Arrays.copyOf(dArray, dArray.length);
+                int[] sArray = Arrays.copyOf(dArray, dArray.length);
+                int[] iArray = Arrays.copyOf(dArray, dArray.length);
+                int[] qArray = Arrays.copyOf(dArray, dArray.length);
+                tempoInicial = System.currentTimeMillis();
+                BubbleSort.bSort(bArray);
+                tempoFinal = System.currentTimeMillis();
+                System.out.println("BubbleSort - Tempo Gasto: " + (tempoFinal - tempoInicial) + " ms\n");
+                tempoInicial = System.currentTimeMillis();
+                SelectionSort.sSort(sArray);
+                tempoFinal = System.currentTimeMillis();
+                System.out.println("SelectionSort - Tempo Gasto: " + (tempoFinal - tempoInicial) + " ms\n");
+                tempoInicial = System.currentTimeMillis();
+                InsertionSort.iSort(iArray);
+                tempoFinal = System.currentTimeMillis();
+                System.out.println("InsertionSort - Tempo Gasto: " + (tempoFinal - tempoInicial) + " ms\n");
+                tempoInicial = System.currentTimeMillis();
+                QuickSort.qSort(qArray, 0, qArray.length - 1);
+                tempoFinal = System.currentTimeMillis();
+                System.out.println("QuickSort - Tempo Gasto: " + (tempoFinal - tempoInicial) + " ms\n");
             }
 
         } while (op != 0);

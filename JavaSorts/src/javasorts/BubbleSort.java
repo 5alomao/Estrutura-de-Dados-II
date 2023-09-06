@@ -16,7 +16,7 @@ public class BubbleSort {
                     int temp = array[comp];
                     array[comp] = array[comp + 1];
                     array[comp + 1] = temp;
-//                    ord = false;
+                    ord = false;
                 }
             }
             if (ord) {

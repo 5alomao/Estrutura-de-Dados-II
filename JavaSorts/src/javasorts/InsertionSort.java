@@ -44,7 +44,6 @@ public class InsertionSort {
         for (int i = 1; i < array.length; i++) {
             insert(array, i);
         }
-
     }
 
     public static void iSortComentado(int array[]) {
