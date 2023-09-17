@@ -1,11 +1,11 @@
 package carsort;
 
 import java.util.*;
-
+import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends javax.swing.JFrame {
 
-    ArrayList<Data> lista = new ArrayList<>();
+    ArrayList<Data> dataList = new ArrayList<>();
 //    TODO - DEFINIR COMPARADORES
 
     public MainForm() {
@@ -163,6 +163,19 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     void mostra() {
+        tabelaDados.setModel(new DefaultTableModel(null, new String[]{"Modelo", "HP", "Aceleração", "Ano", "Origem"}));
+
+        DefaultTableModel model = (DefaultTableModel) tabelaDados.getModel();
+
+        Object rowData[] = new Object[5];
+        for (Data d : dataList) {
+            rowData[0] = d.getName();
+            rowData[1] = d.getHorsePower();
+            rowData[2] = d.getAcceleration();
+            rowData[3] = d.getModelYear();
+            rowData[4] = d.getOrigin();
+            model.addRow(rowData);
+        }
     }
 
     private void btnOrdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdNomeActionPerformed
@@ -191,7 +204,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOrdNomeActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
