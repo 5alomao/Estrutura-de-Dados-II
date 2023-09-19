@@ -163,9 +163,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI Light" size="14" style="0"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/javasort/check-list (1).png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Ordenar"/>
           </Properties>
           <Events>
@@ -198,14 +195,12 @@
         <Component class="javax.swing.JComboBox" name="cbOrdena">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
-                <StringItem index="0" value="Data"/>
-                <StringItem index="1" value="Cidade"/>
-                <StringItem index="2" value="Minima"/>
-                <StringItem index="3" value="M&#xe1;xima"/>
-                <StringItem index="4" value="Vento Min"/>
-                <StringItem index="5" value="Vento Max"/>
-                <StringItem index="6" value=" "/>
+              <StringArray count="5">
+                <StringItem index="0" value="NOME"/>
+                <StringItem index="1" value="HP"/>
+                <StringItem index="2" value="PESO"/>
+                <StringItem index="3" value="ANO"/>
+                <StringItem index="4" value="ORIGEM"/>
               </StringArray>
             </Property>
           </Properties>
@@ -217,9 +212,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSearch">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/javasort/task.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="BUSCAR"/>
           </Properties>
           <Events>

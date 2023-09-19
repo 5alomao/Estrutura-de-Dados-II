@@ -1,5 +1,8 @@
 package carsort;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -7,6 +10,11 @@ public class MainForm extends javax.swing.JFrame {
 
     ArrayList<Data> dataList = new ArrayList<>();
 //    TODO - DEFINIR COMPARADORES
+    Comparator<Data> compareName = (Data d1, Data d2) -> (int) (d1.getName().compareTo(d2.getName()));
+    Comparator<Data> compareHp = (Data d1, Data d2) -> (int) (d1.getHorsePower() - d2.getHorsePower());
+    Comparator<Data> compareWeigth = (Data d1, Data d2) -> (int) (d1.getWeigth() - d2.getWeigth());
+    Comparator<Data> compareModelYear = (Data d1, Data d2) -> (int) (d1.getModelYear() - d2.getModelYear());
+    Comparator<Data> compareOrigin = (Data d1, Data d2) -> (int) (d1.getOrigin().compareTo(d2.getOrigin()));
 
     public MainForm() {
         initComponents();
@@ -60,7 +68,6 @@ public class MainForm extends javax.swing.JFrame {
         pnlBody.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 24))); // NOI18N
 
         btnOrdNome.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        btnOrdNome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javasort/check-list (1).png"))); // NOI18N
         btnOrdNome.setText("Ordenar");
         btnOrdNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,9 +86,8 @@ public class MainForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelaDados);
 
-        cbOrdena.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Data", "Cidade", "Minima", "Máxima", "Vento Min", "Vento Max", " " }));
+        cbOrdena.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NOME", "HP", "PESO", "ANO", "ORIGEM" }));
 
-        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javasort/task.png"))); // NOI18N
         btnSearch.setText("BUSCAR");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,10 +166,48 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void carregaArquivo() {
+        String csvFile = "automobile_data.csv";
+        String line = "";
+        String[] reader = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+
+                Data d = new Data();
+
+                reader = line.split(",");
+
+                d.setName(reader[0]);
+
+                if (!reader[1].isEmpty()) {
+                    d.setHorsePower(Integer.parseInt(reader[1]));
+                }
+
+                if (!reader[2].isEmpty()) {
+                    d.setWeigth(Integer.parseInt(reader[2]));
+                }
+
+                if (!reader[3].isEmpty()) {
+                    d.setModelYear(Integer.parseInt(reader[3]));
+                }
+
+                d.setOrigin(reader[4]);
+
+                System.out.println("Nome: " + d.getName());
+                System.out.println("HP: " + d.getHorsePower());
+                System.out.println("Peso: " + d.getWeigth());
+                System.out.println("Ano: " + d.getModelYear());
+                System.out.println("Origem: " + d.getOrigin());
+                System.out.println("---------");
+
+                dataList.add(d);
+            }// fim percurso no arquivo
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void mostra() {
-        tabelaDados.setModel(new DefaultTableModel(null, new String[]{"Modelo", "HP", "Aceleração", "Ano", "Origem"}));
+        tabelaDados.setModel(new DefaultTableModel(null, new String[]{"Modelo", "HP", "Peso", "Ano", "Origem"}));
 
         DefaultTableModel model = (DefaultTableModel) tabelaDados.getModel();
 
@@ -171,7 +215,7 @@ public class MainForm extends javax.swing.JFrame {
         for (Data d : dataList) {
             rowData[0] = d.getName();
             rowData[1] = d.getHorsePower();
-            rowData[2] = d.getAcceleration();
+            rowData[2] = d.getWeigth();
             rowData[3] = d.getModelYear();
             rowData[4] = d.getOrigin();
             model.addRow(rowData);
@@ -182,24 +226,22 @@ public class MainForm extends javax.swing.JFrame {
 
         switch (cbOrdena.getSelectedIndex()) {
             case 0:
-
+                dataList.sort(compareName);
                 break;
             case 1:
-
+                dataList.sort(compareHp);
                 break;
             case 2:
-
+                dataList.sort(compareWeigth);
                 break;
             case 3:
-
+                dataList.sort(compareModelYear);
                 break;
             case 4:
-
-                break;
-            case 5:
-
+                dataList.sort(compareOrigin);
                 break;
         }
+
         mostra();
     }//GEN-LAST:event_btnOrdNomeActionPerformed
 
