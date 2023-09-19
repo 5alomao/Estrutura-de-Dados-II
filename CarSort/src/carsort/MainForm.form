@@ -4,6 +4,8 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="btnGroup">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="btnFiltro">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -116,15 +118,21 @@
                   <Component id="jScrollPane1" min="-2" pref="879" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="rbLinear" min="-2" pref="63" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="rbBinaria" min="-2" pref="70" max="-2" attributes="0"/>
-                      </Group>
                       <Component id="cbOrdena" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtSearch" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnOrdNome" alignment="1" pref="182" max="32767" attributes="0"/>
                       <Component id="btnSearch" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="rbModel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="rbLinear" alignment="0" pref="63" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="49" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="rbBinaria" pref="70" max="32767" attributes="0"/>
+                              <Component id="rbOrigin" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -146,6 +154,11 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="rbLinear" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="rbBinaria" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="rbModel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbOrigin" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnSearch" min="-2" pref="40" max="-2" attributes="0"/>
@@ -232,6 +245,22 @@
               <ComponentRef name="btnGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Bin&#xe1;ria"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbModel">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btnFiltro"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Nome"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbOrigin">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="btnFiltro"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Origem"/>
           </Properties>
         </Component>
       </SubComponents>

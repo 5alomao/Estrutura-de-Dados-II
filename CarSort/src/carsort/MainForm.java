@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends javax.swing.JFrame {
@@ -27,6 +28,7 @@ public class MainForm extends javax.swing.JFrame {
     private void initComponents() {
 
         btnGroup = new javax.swing.ButtonGroup();
+        btnFiltro = new javax.swing.ButtonGroup();
         pnlHeader = new javax.swing.JPanel();
         lblProx = new javax.swing.JLabel();
         pnlBody = new javax.swing.JPanel();
@@ -38,6 +40,8 @@ public class MainForm extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         rbLinear = new javax.swing.JRadioButton();
         rbBinaria = new javax.swing.JRadioButton();
+        rbModel = new javax.swing.JRadioButton();
+        rbOrigin = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
@@ -101,6 +105,12 @@ public class MainForm extends javax.swing.JFrame {
         btnGroup.add(rbBinaria);
         rbBinaria.setText("Binária");
 
+        btnFiltro.add(rbModel);
+        rbModel.setText("Nome");
+
+        btnFiltro.add(rbOrigin);
+        rbOrigin.setText("Origem");
+
         javax.swing.GroupLayout pnlBodyLayout = new javax.swing.GroupLayout(pnlBody);
         pnlBody.setLayout(pnlBodyLayout);
         pnlBodyLayout.setHorizontalGroup(
@@ -110,14 +120,18 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 879, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlBodyLayout.createSequentialGroup()
-                        .addComponent(rbLinear, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rbBinaria, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cbOrdena, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSearch)
                     .addComponent(btnOrdNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlBodyLayout.createSequentialGroup()
+                        .addGroup(pnlBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(rbModel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rbLinear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addGroup(pnlBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(rbBinaria, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(rbOrigin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnlBodyLayout.setVerticalGroup(
@@ -136,6 +150,10 @@ public class MainForm extends javax.swing.JFrame {
                         .addGroup(pnlBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rbLinear)
                             .addComponent(rbBinaria))
+                        .addGap(13, 13, 13)
+                        .addGroup(pnlBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbModel)
+                            .addComponent(rbOrigin))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -246,6 +264,40 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOrdNomeActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String search = txtSearch.getText();
+        int result = -1;
+        ArrayList<Data> dataListCopy = new ArrayList<>(dataList);
+
+        if (rbLinear.isSelected()) {
+            if (rbModel.isSelected()) {
+                result = Search.linearSearchModel(dataList, search);
+            } else if (rbOrigin.isSelected()) {
+                result = Search.linearSearchOrigin(dataList, search);
+                if (result > -1) {
+                    JOptionPane.showMessageDialog(null, "Encontrado!\nForam feitas " + result + " comparacações!");
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um dado para buscar");
+            }
+        } else if (rbBinaria.isSelected()) {
+            if (rbModel.isSelected()) {
+                Collections.sort(dataListCopy, compareName);
+                result = Search.binarySearchModel(dataListCopy, search);
+            } else if (rbOrigin.isSelected()) {
+                Collections.sort(dataListCopy, compareOrigin);
+                result = Search.binarySearchOrigin(dataListCopy, search);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um método de busca");
+        }
+
+        if (result > -1) {
+            JOptionPane.showMessageDialog(null, "Encontrado o primeiro registro com " + result + " comparações!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Não Encontrado!");
+        }
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -288,6 +340,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup btnFiltro;
     private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnOrdNome;
     private javax.swing.JButton btnSearch;
@@ -298,6 +351,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JRadioButton rbBinaria;
     private javax.swing.JRadioButton rbLinear;
+    private javax.swing.JRadioButton rbModel;
+    private javax.swing.JRadioButton rbOrigin;
     private javax.swing.JTable tabelaDados;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
