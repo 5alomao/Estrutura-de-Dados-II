@@ -6,9 +6,27 @@ public class Smartphone implements Comparable<Smartphone>{
     private int rating;
 //    private double processorSpeed;
 
-    public Smartphone(String brandName, String model, int rating) {
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
         this.model = model;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
         this.rating = rating;
     }
     

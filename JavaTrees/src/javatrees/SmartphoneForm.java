@@ -1,5 +1,9 @@
 package javatrees;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class SmartphoneForm extends javax.swing.JFrame {
 
     public SmartphoneForm() {
@@ -31,6 +35,7 @@ public class SmartphoneForm extends javax.swing.JFrame {
         lblProcessadorVelocidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(640, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavegacao.setBackground(new java.awt.Color(0, 102, 102));
@@ -129,10 +134,38 @@ public class SmartphoneForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCarregaCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregaCsvActionPerformed
-        // TODO add your handling code here:
+        
+//        TODO 
+        String csvFile = "";
+        String line = "";
+        String[] reader = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+
+                Smartphone smp = new Smartphone();
+
+                reader = line.split(",");
+
+                smp.setBrandName(reader[0]);
+                
+                smp.setModel(reader[1]);
+
+                if (!reader[2].isEmpty()) {
+                    smp.setRating(Integer.parseInt(reader[2]));
+                }
+
+                System.out.println("Marca: " + smp.getBrandName());
+                System.out.println("Modelo: " + smp.getModel());
+                System.out.println("Avaliação: " + smp.getRating());
+                
+                //dataList.add(smp);
+            }// fim percurso no arquivo
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
     }//GEN-LAST:event_btnCarregaCsvActionPerformed
 
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
