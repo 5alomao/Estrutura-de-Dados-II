@@ -41,7 +41,7 @@ public class AVLTree<T extends Comparable<T>> {
         raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
         novaRaiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
   
-        System.out.println("Rotação para direita.");
+        System.out.println("Rotação para esquerda.");
         return novaRaiz;
     }
     
