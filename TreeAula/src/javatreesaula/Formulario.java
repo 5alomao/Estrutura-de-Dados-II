@@ -1,11 +1,13 @@
-
 package javatreesaula;
+
 import java.io.*;
 import javax.swing.JOptionPane;
 
 public class Formulario extends javax.swing.JFrame {
-    BinarySearchTree<Aluno> tree = new BinarySearchTree<>();
-       
+//    BinarySearchTree<Aluno> tree = new BinarySearchTree<>();
+
+    AVLTree<Aluno> tree = new AVLTree();
+
     public Formulario() {
         initComponents();
     }
@@ -27,6 +29,7 @@ public class Formulario extends javax.swing.JFrame {
         btnLoadFile = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
+        btnAltura = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -48,7 +51,7 @@ public class Formulario extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -71,7 +74,7 @@ public class Formulario extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Binary Search Tree");
+        jLabel3.setText("AVL Tree");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,57 +147,64 @@ public class Formulario extends javax.swing.JFrame {
         });
         getContentPane().add(btnRemover, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 220, 110, 40));
 
+        btnAltura.setText("Altura AVL");
+        btnAltura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlturaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 280, 120, 30));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void carregaArquivo(BinarySearchTree<Aluno> tree){
-     String csvFile = "dados.csv";
+    private void carregaArquivo(AVLTree<Aluno> tree) {
+        String csvFile = "numeros.csv";
         String line = "";
         String[] leitura = null;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 Aluno aluno = new Aluno();
-                leitura = line.split(",");
-               // System.out.println(leitura[0]+" " + leitura[1]);
+                leitura = line.split(";");
+                // System.out.println(leitura[0]+" " + leitura[1]);
                 aluno.setMatricula(Integer.parseInt(leitura[0]));
                 aluno.setNome(leitura[1]);
-                int qtd= tree.add(aluno); 
-                tree.preOrder(listMostraDados);
-                listMostraDados.append("Comparações para inserção:"+qtd+"\n");
+                int qtd = tree.add(aluno);
+//                tree.preOrder(listMostraDados);
+//                listMostraDados.append("Comparações para inserção:"+qtd+"\n");
             }// fim percurso no arquivo
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-           Aluno al = new Aluno();
-           al.setMatricula(Integer.parseInt(txtCodigo.getText()));
-           al.setNome(txtNome.getText());
-           int retorno = tree.add(al);
-           tree.preOrder(listMostraDados);
-           listMostraDados.append("Comparações:"+retorno+"\n");
-           txtCodigo.setText("");
-           txtNome.setText("");
-           txtCodigo.setFocusable(rootPaneCheckingEnabled);
+        Aluno al = new Aluno();
+        al.setMatricula(Integer.parseInt(txtCodigo.getText()));
+        al.setNome(txtNome.getText());
+        int retorno = tree.add(al);
+        tree.preOrder(listMostraDados);
+        listMostraDados.append("Comparações:" + retorno + "\n");
+        txtCodigo.setText("");
+        txtNome.setText("");
+        txtCodigo.setFocusable(rootPaneCheckingEnabled);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
         carregaArquivo(tree);
+        tree.preOrder(listMostraDados);
     }//GEN-LAST:event_btnLoadFileActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         Aluno alunodeBusca = new Aluno();
-        alunodeBusca.setMatricula
-            (Integer.parseInt(txtCodigo.getText()));
+        alunodeBusca.setMatricula(Integer.parseInt(txtCodigo.getText()));
         alunodeBusca = tree.buscar(alunodeBusca);
-        if(alunodeBusca==null)
-            JOptionPane.showMessageDialog
-                  (rootPane, "Não encontrado :(");
-        else
-            JOptionPane.showMessageDialog
-                  (rootPane, "Nome:"+alunodeBusca.getNome());   
+        if (alunodeBusca == null) {
+            JOptionPane.showMessageDialog(rootPane, "Não encontrado :(");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Nome:" + alunodeBusca.getNome());
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
@@ -202,6 +212,11 @@ public class Formulario extends javax.swing.JFrame {
         listMostraDados.append("\n Após remoção\n");
         tree.preOrder(listMostraDados);
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlturaActionPerformed
+        // TODO add your handling code here:
+        listMostraDados.append("\nAltura da árvore: " + tree.altura());
+    }//GEN-LAST:event_btnAlturaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,6 +255,7 @@ public class Formulario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAltura;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSearch;

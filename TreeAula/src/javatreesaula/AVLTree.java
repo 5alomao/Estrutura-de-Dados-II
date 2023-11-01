@@ -7,7 +7,11 @@ public class AVLTree<T extends Comparable<T>> {
     Node raiz = null;
     int cont;
 
-    public int altura(Node raiz) {
+    public int altura() {
+        return altura(raiz);
+    }
+
+    private int altura(Node raiz) {
         int altEsq, altDir;
         if (raiz == null) {
             return -1;
@@ -22,29 +26,29 @@ public class AVLTree<T extends Comparable<T>> {
     }// fim funcao altura
 
     public Node<T> rotacaoDir(Node<T> raiz) {
-        
+
         Node<T> novaRaiz = raiz.esquerda;
         raiz.esquerda = novaRaiz.direita;
         novaRaiz.direita = raiz;
         raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
-        novaRaiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
-  
-        System.out.println("Rotação para direita.");
+        novaRaiz.fb = altura(novaRaiz.direita) - altura(novaRaiz.esquerda);
+
+        System.out.println("Rotação para direita. -->");
         return novaRaiz;
     }
-    
+
     public Node<T> rotacaoEsq(Node<T> raiz) {
-        
+
         Node<T> novaRaiz = raiz.direita;
         raiz.direita = novaRaiz.esquerda;
         novaRaiz.esquerda = raiz;
         raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
-        novaRaiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
-  
-        System.out.println("Rotação para esquerda.");
+        novaRaiz.fb = altura(novaRaiz.direita) - altura(novaRaiz.esquerda);
+
+        System.out.println("Rotação para esquerda. <--");
         return novaRaiz;
     }
-    
+
     public int add(T novoDado) {
         Node<T> novoNo = new Node<T>(novoDado);
         cont = 0;
@@ -62,6 +66,27 @@ public class AVLTree<T extends Comparable<T>> {
             raiz.direita = inserir(raiz.direita, novo);
         } else {
             raiz.esquerda = inserir(raiz.esquerda, novo);
+        }
+
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+
+        switch (raiz.fb) {
+            case 2:
+                if (raiz.direita.fb >= 0) {
+                    raiz = rotacaoEsq(raiz);
+                } else {
+                    raiz.direita = rotacaoDir(raiz.direita);
+                    raiz = rotacaoEsq(raiz);
+                }
+                break;
+            case -2:
+                if (raiz.esquerda.fb <= 0) {
+                    raiz = rotacaoDir(raiz);
+                } else {
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
         }
 
         return raiz; // retorna a raiz atualizada
@@ -107,7 +132,7 @@ public class AVLTree<T extends Comparable<T>> {
 
     private void preOrder(Node<T> raiz, JTextArea listMostraDados) {
         if (raiz != null) {
-            listMostraDados.append(raiz.dado + " |");
+            listMostraDados.append(raiz.dado + "(FB: " + raiz.fb + ") |");
             preOrder(raiz.esquerda, listMostraDados);
             preOrder(raiz.direita, listMostraDados);
         }// fim 
@@ -180,6 +205,27 @@ public class AVLTree<T extends Comparable<T>> {
             raiz.esquerda = remove(raiz.esquerda, dadoRemover);
         } else {
             raiz.direita = remove(raiz.direita, dadoRemover);
+        }
+
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+
+        switch (raiz.fb) {
+            case 2:
+                if (raiz.direita.fb >= 0) {
+                    raiz = rotacaoEsq(raiz);
+                } else {
+                    raiz.direita = rotacaoDir(raiz.direita);
+                    raiz = rotacaoEsq(raiz);
+                }
+                break;
+            case -2:
+                if (raiz.esquerda.fb <= 0) {
+                    raiz = rotacaoDir(raiz);
+                } else {
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
         }
 
         return raiz;
