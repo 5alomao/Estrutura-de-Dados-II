@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Grafos {
-
+    
     static int menuMetodos() {
         Scanner scanner = new Scanner(System.in);
         int op;
@@ -21,12 +21,12 @@ public class Grafos {
         op = scanner.nextInt();
         return op;
     }
-
+    
     public static void main(String[] args) {
         Graph grafo = new Graph();
         Scanner scanner = new Scanner(System.in);
         int op = 0;
-        grafo.carregarGrafo();
+        //grafo.carregarGrafo();
         do {
             op = menuMetodos();
             switch (op) {
@@ -59,13 +59,20 @@ public class Grafos {
                         System.out.println("Não existe caminho.");
                     }
                     break;
+                case 5:
+                    System.out.println("DFS:");
+                    System.out.println("Origem:");
+                    origem = scanner.nextInt();
+           
+                    System.out.println(grafo.buscaProfundidade(origem));
+                    break;
                 case 0:
                     System.out.println("Saindo");
                     grafo.salvarGrafo();
                     break;
             }// fim switch
         } while (op != 0);
-
+        
     }
-
+    
 }
