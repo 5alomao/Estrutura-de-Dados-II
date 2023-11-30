@@ -7,6 +7,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
+class ComparadorDistancia implements Comparator<No> {
+
+    public int compare(No no1, No no2) {
+        return Integer.compare(no1.distancia, no2.distancia);
+    }
+
+}
+
 public class Graph {
 
     private Map<Integer, LinkedList<Aresta>> meuGrafo;
@@ -72,6 +80,59 @@ public class Graph {
         }
     }
 
+    public List buscaLargura(int verticeInicial) {
+        Queue<Integer> fila = new LinkedList<>();
+        visitados = new ArrayList<>();
+        fila.add(verticeInicial);
+
+        while (!fila.isEmpty()) {
+            int verticeAtual = fila.poll(); //dequeue
+            visitados.add(verticeAtual);
+            List<Aresta> vizinhos = meuGrafo.get(verticeAtual);
+
+            for (Aresta adjacente : vizinhos) {
+                if (!visitados.contains(adjacente.vertice) && !fila.contains(adjacente.vertice)) {
+                    fila.add(adjacente.vertice);
+                }
+            }
+        }
+        return visitados;
+    }
+
+    public Map<Integer, Integer> dijkstra(int origem) {
+        Map<Integer, Integer> distancias = new HashMap<>();
+        Map<Integer, Integer> predecessores = new HashMap<>();
+        PriorityQueue<No> filaPrioridade = new PriorityQueue<>(new ComparadorDistancia());
+        visitados = new ArrayList();
+
+        for (int vertice : meuGrafo.keySet()) {
+            distancias.put(vertice, Integer.MAX_VALUE);
+            predecessores.put(vertice, null);
+        }
+
+        distancias.put(origem, 0);
+        filaPrioridade.add(new No(origem, 0));
+
+        while (!filaPrioridade.isEmpty()) {
+            int verticeAtual = filaPrioridade.poll().vertice;
+            if (!visitados.contains(verticeAtual)) {
+                visitados.add(verticeAtual);
+
+                for (Aresta aresta : meuGrafo.get(verticeAtual)) {
+                    int vizinho = aresta.vertice;
+                    int pesoAresta = aresta.peso;
+                    int novaDistancia = distancias.get(verticeAtual) + pesoAresta;
+                    if (novaDistancia < distancias.get(vizinho)) {
+                        distancias.put(vizinho, novaDistancia);
+                        predecessores.put(vizinho, verticeAtual);
+                        filaPrioridade.add(new No(vizinho, novaDistancia));
+                    }
+                }
+            }
+        }
+        return distancias;
+    }
+
     public void imprimirGrafo() {
         for (Map.Entry<Integer, LinkedList<Aresta>> entry : meuGrafo.entrySet()) {
             int vertice = entry.getKey();
@@ -97,10 +158,10 @@ public class Graph {
             e.printStackTrace();
         }
     }
-
+    
     // Método para carregar os dados do grafo de um arquivo texto
     public void carregarGrafo() {
-        try (Scanner scanner = new Scanner(new File("grafo2.txt"))) {
+        try (Scanner scanner = new Scanner(new File("grafo3.txt"))) {
             while (scanner.hasNext()) {
                 int origem = scanner.nextInt();
                 int destino = scanner.nextInt();

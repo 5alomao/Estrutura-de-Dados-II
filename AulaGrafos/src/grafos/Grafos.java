@@ -1,13 +1,9 @@
-/*
-   MODELO PARA AULA
- */
 package grafos;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Grafos {
-    
+
     static int menuMetodos() {
         Scanner scanner = new Scanner(System.in);
         int op;
@@ -17,16 +13,17 @@ public class Grafos {
         System.out.println("4-Alcance Grafo");
         System.out.println("5-Busca em Profundidade [DFS]");
         System.out.println("6-Busca em Largura [BFS]");
+        System.out.println("7-Holandes Voador");
         System.out.println("0-Sair");
         op = scanner.nextInt();
         return op;
     }
-    
+
     public static void main(String[] args) {
         Graph grafo = new Graph();
         Scanner scanner = new Scanner(System.in);
         int op = 0;
-        //grafo.carregarGrafo();
+        grafo.carregarGrafo();
         do {
             op = menuMetodos();
             switch (op) {
@@ -63,8 +60,24 @@ public class Grafos {
                     System.out.println("DFS:");
                     System.out.println("Origem:");
                     origem = scanner.nextInt();
-           
+
                     System.out.println(grafo.buscaProfundidade(origem));
+                    break;
+                case 6:
+                    System.out.println("BFS");
+                    System.out.println("Origem:");
+                    origem = scanner.nextInt();
+                    System.out.println(grafo.buscaLargura(origem));
+                    break;
+                case 7:
+                    System.out.println("Dijkstra");
+                    System.out.println("Origem");
+                    origem = scanner.nextInt();
+                    Map<Integer, Integer> distancias = grafo.dijkstra(origem);
+                    for (int vertice : distancias.keySet()) {
+                        int distancia = distancias.get(vertice);
+                        System.out.println("Distância mínima de " + origem + " para " + vertice + ": " + distancia);
+                    }
                     break;
                 case 0:
                     System.out.println("Saindo");
@@ -72,7 +85,7 @@ public class Grafos {
                     break;
             }// fim switch
         } while (op != 0);
-        
+
     }
-    
+
 }
