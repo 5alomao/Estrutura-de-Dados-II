@@ -17,5 +17,5 @@ public class Caminho {
     public int getPeso() {
         return peso;
     }
-    
+
 }

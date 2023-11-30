@@ -3,6 +3,7 @@ package redesocial.view;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import redesocial.model.CriadorUsuario;
 import redesocial.model.Dados;
 import redesocial.model.Grafo;
 import redesocial.model.Usuario;
@@ -15,35 +16,65 @@ public class Main {
         Map<Integer, Usuario> usuarios = new HashMap<>();
 
         Scanner sc = new Scanner(System.in);
-        int option;
+        int option, cpfOrigem, cpfDestino;
+        Usuario objUsuarioOrigem;
+        Usuario objUsuarioDestino;
         //minhasConexoes.carregarGrafo();
         do {
             option = menuOptions();
             switch (option) {
                 case 1:
+                    System.out.println("*** Cadastrar Usuário ***");
+
                     System.out.println("Nome de Usuário:");
                     String nome = sc.nextLine();
+
                     System.out.println("CPF:");
                     int cpf = sc.nextInt();
+
                     sc.nextLine();
-                    Usuario objUsuario = new Usuario(nome, cpf);
+
+                    System.out.println("Cidade:");
+                    String cidade = sc.nextLine();
+
+                    System.out.println("Telefone:");
+                    String telefone = sc.nextLine();
+
+                    Usuario objUsuario = CriadorUsuario.criarUsuario(nome, cpf, cidade, telefone);
                     Dados.adicionarDado(objUsuario);
+
                     minhasConexoes.adicionarUsuario(objUsuario);
                     break;
                 case 2:
-                    System.out.println("Conexões:");
-                    System.out.println("CPF ORIGEM");
-                    int cpfOrigem = sc.nextInt();
-                    Usuario objUsuarioOrigem = Dados.getUsuario(cpfOrigem);
-                    System.out.println("CPF DESTINO");
-                    int cpfDestino = sc.nextInt();
-                    Usuario objUsuarioDestinos = Dados.getUsuario(cpfDestino);
+                    System.out.println("Conectar Usuários:");
+
+                    System.out.println("CPF Usuario-Origem:");
+                    cpfOrigem = sc.nextInt();
+                    objUsuarioOrigem = Dados.getUsuario(cpfOrigem);
+
+                    System.out.println("CPF Usuario-Destino:");
+                    cpfDestino = sc.nextInt();
+                    objUsuarioDestino = Dados.getUsuario(cpfDestino);
+
                     System.out.println("Peso:");
                     int peso = sc.nextInt();
-                    minhasConexoes.adicionarConexao(objUsuarioOrigem, objUsuarioDestinos, peso);
-                    minhasConexoes.imprimirGrafo();
+
+                    minhasConexoes.adicionarConexao(objUsuarioOrigem, objUsuarioDestino, peso);
                     break;
                 case 3:
+                    System.out.println("Desconectar Usuários:");
+
+                    System.out.println("CPF Usuario-Origem:");
+                    cpfOrigem = sc.nextInt();
+                    objUsuarioOrigem = Dados.getUsuario(cpfOrigem);
+
+                    System.out.println("CPF Usuario-Destino:");
+                    cpfDestino = sc.nextInt();
+                    objUsuarioDestino = Dados.getUsuario(cpfDestino);
+
+                    minhasConexoes.removerConexao(objUsuarioOrigem, objUsuarioDestino);
+                    break;
+                case 4:
                     minhasConexoes.imprimirGrafo();
                     break;
 //                case 4:
