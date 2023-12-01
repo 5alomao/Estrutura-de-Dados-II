@@ -109,10 +109,8 @@ public class Main {
         int option;
         System.out.println("1-Adicionar Usuário");
         System.out.println("2-Adicionar Conexão");
-        System.out.println("3-Imprimir Conexões");
-        System.out.println("4-Alcance Grafo");
-        System.out.println("5-Busca em Profundidade [DFS]");
-        System.out.println("6-Busca em Largura [BFS]");
+        System.out.println("3-Remover Conexões");
+        System.out.println("4-Imprimir Conexões");
         System.out.println("0-Sair");
         option = sc.nextInt();
         return option;

@@ -29,10 +29,15 @@ public class Grafo {
     }
 
     public void removerConexao(Usuario objUsuarioOrigem, Usuario objUsuarioDestino) {
+        if (!minhasConexoes.containsKey(objUsuarioOrigem.getCpf()) && !minhasConexoes.containsKey(objUsuarioDestino.getCpf())) {
+            throw new IllegalArgumentException("Os Usuários de origem e destino devem existir no Grafo.");
+        }
 
-//        if (!minhasConexoes.containsKey(objUsuarioOrigem.getCpf()) || !minhasConexoes.containsKey(objUsuarioDestino.getCpf())) {
-//            throw new IllegalArgumentException("Os Usuários de origem e destino devem existir no Grafo.");
-//        }
+        LinkedList<Caminho> conexoesOrigem = minhasConexoes.get(objUsuarioOrigem.getCpf());
+        LinkedList<Caminho> conexoesDestino = minhasConexoes.get(objUsuarioDestino.getCpf());
+
+        conexoesOrigem.removeIf(caminho -> caminho.objUsuario.equals(objUsuarioDestino));
+        conexoesDestino.removeIf(caminho -> caminho.objUsuario.equals(objUsuarioOrigem));
     }
 
     public void imprimirGrafo() {
