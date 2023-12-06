@@ -16,10 +16,10 @@ public class Main {
         Map<Integer, Usuario> usuarios = new HashMap<>();
 
         Scanner sc = new Scanner(System.in);
-        int option, cpfOrigem, cpfDestino;
+        int option, cpfOrigem, cpfDestino, cpf;
         Usuario objUsuarioOrigem;
         Usuario objUsuarioDestino;
-        //minhasConexoes.carregarGrafo();
+        minhasConexoes.carregarGrafo();
         do {
             option = menuOptions();
             switch (option) {
@@ -30,7 +30,7 @@ public class Main {
                     String nome = sc.nextLine();
 
                     System.out.println("CPF:");
-                    int cpf = sc.nextInt();
+                    cpf = sc.nextInt();
 
                     sc.nextLine();
 
@@ -41,7 +41,6 @@ public class Main {
                     String telefone = sc.nextLine();
 
                     Usuario objUsuario = CriadorUsuario.criarUsuario(nome, cpf, cidade, telefone);
-                    Dados.adicionarDado(objUsuario);
 
                     minhasConexoes.adicionarUsuario(objUsuario);
                     break;
@@ -75,31 +74,25 @@ public class Main {
                     minhasConexoes.removerConexao(objUsuarioOrigem, objUsuarioDestino);
                     break;
                 case 4:
+                    System.out.println("Digite o CPF para ver Conexões:");
+                    cpf = sc.nextInt();
+                    minhasConexoes.verificarConexoes(cpf);
+                    break;
+                case 5:
+                    System.out.println("Digite os cpf de origem e destino:");
+                    cpfOrigem = sc.nextInt();
+                    cpfDestino = sc.nextInt();
+                    minhasConexoes.alcance(cpfOrigem, cpfDestino);
+                    break;
+                case 6:
                     minhasConexoes.imprimirGrafo();
                     break;
-//                case 4:
-//                    System.out.println("Vertices:");
-//                    System.out.println("Origem:");
-//                    origem = scanner.nextInt();
-//                    System.out.println("Destino:");
-//                    destino = scanner.nextInt();
-//                    if (grafo.alcance(origem, destino)) {
-//                        System.out.println("Existe caminho.");
-//                    } else {
-//                        System.out.println("Não existe caminho.");
-//                    }
-//                    break;
-//                case 5:
-//                    System.out.println("DFS:");
-//                    System.out.println("Origem:");
-//                    origem = scanner.nextInt();
-//
-//                    System.out.println(grafo.buscaProfundidade(origem));
-//                    break;
-//                case 0:
-//                    System.out.println("Saindo");
-//                    grafo.salvarGrafo();
-//                    break;
+                case 0:
+                    System.out.println("Saindo");
+                    minhasConexoes.salvarGrafo();
+                    break;
+                default:
+                    System.out.println("Opção Inválida.");
             }
         } while (option != 0);
     }
@@ -110,7 +103,9 @@ public class Main {
         System.out.println("1-Adicionar Usuário");
         System.out.println("2-Adicionar Conexão");
         System.out.println("3-Remover Conexões");
-        System.out.println("4-Imprimir Conexões");
+        System.out.println("4-Verificar Conexões");
+        System.out.println("5-Verificar Caminho");
+        System.out.println("6-Imprimir Conexões");
         System.out.println("0-Sair");
         option = sc.nextInt();
         return option;
